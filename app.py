@@ -1,6 +1,7 @@
 from time import time
 import streamlit as st
 from streamlit_chat import message as st_message
+from modules import image_ocr
 
 
 def generate_text_response():
@@ -23,7 +24,7 @@ def generate_image_response():
     Function to extract the text from user input image and return the GPT response
     """
     # Process the user image to extract text
-    image_text = 'input image text' # get_image_text(st.session_state.input_image)
+    image_text = image_ocr.get_image_text(st.session_state.input_image)
 
     # Get the response from chatgpt
     gpt_response = 'gpt response' # get_gpt_response(image_text)

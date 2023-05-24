@@ -1,4 +1,6 @@
 streamlit
 streamlit_chat
+imageio
 opencv-python
 openai
+pytesseract
