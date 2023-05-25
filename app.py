@@ -2,7 +2,7 @@ from time import time
 import streamlit as st
 from streamlit_chat import message as st_message
 from modules import image_ocr
-
+from modules import gpt_troubleshoot
 
 def generate_text_response():
     """
@@ -12,10 +12,10 @@ def generate_text_response():
     input_text = st.session_state.input_text
 
     # Get the response from chatgpt
-    gpt_response = get_gpt_response(input_text)
+    gpt_response = gpt_troubleshoot.get_gpt_response(input_text)
 
     st.session_state.history.append({"message": input_text, "is_user": True})
-    st.session_state.history.append({"message": gpt_response, "is_user": False})
+    st.session_state.history.append({"message": gpt_response["choices"][0]["message"]["content"], "is_user": False})
 
     return
 
@@ -27,10 +27,10 @@ def generate_image_response():
     image_text = image_ocr.get_image_text(st.session_state.input_image)
 
     # Get the response from chatgpt
-    gpt_response = get_gpt_response(image_text)
+    gpt_response = gpt_troubleshoot.get_gpt_response(image_text)
 
     st.session_state.history.append({"message": image_text, "is_user": True})
-    st.session_state.history.append({"message": gpt_response, "is_user": False})
+    st.session_state.history.append({"message": gpt_response["choices"][0]["message"]["content"], "is_user": False})
 
     return
 
