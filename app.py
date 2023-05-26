@@ -13,7 +13,7 @@ def generate_text_response():
     input_text = st.session_state.input_text
 
     # Get the response from chatgpt
-    gpt_response = get_gpt_response(input_text)
+    gpt_response = get_gpt_response(input_text, st.session_state.history)
 
     st.session_state.history.append({"message": input_text, "is_user": True})
     st.session_state.history.append({"message": gpt_response, "is_user": False})
@@ -29,7 +29,7 @@ def generate_image_response():
     image_text = get_image_text(st.session_state.input_image)
 
     # Get the response from chatgpt
-    gpt_response = get_gpt_response(image_text)
+    gpt_response = get_gpt_response(image_text, st.session_state.history)
 
     st.session_state.history.append({"message": image_text, "is_user": True})
     st.session_state.history.append({"message": gpt_response, "is_user": False})
