@@ -1,8 +1,9 @@
-from time import time
 import streamlit as st
 from streamlit_chat import message as st_message
-from modules import image_ocr
-from modules import gpt_troubleshoot
+
+from modules.image_ocr import get_image_text
+from modules.gpt_troubleshoot import get_gpt_response
+
 
 def generate_text_response():
     """
@@ -12,22 +13,23 @@ def generate_text_response():
     input_text = st.session_state.input_text
 
     # Get the response from chatgpt
-    gpt_response = gpt_troubleshoot.get_gpt_response(input_text)
+    gpt_response = get_gpt_response(input_text)
 
     st.session_state.history.append({"message": input_text, "is_user": True})
     st.session_state.history.append({"message": gpt_response["choices"][0]["message"]["content"], "is_user": False})
 
     return
 
+
 def generate_image_response():
     """
     Function to extract the text from user input image and return the GPT response
     """
     # Process the user image to extract text
-    image_text = image_ocr.get_image_text(st.session_state.input_image)
+    image_text = get_image_text(st.session_state.input_image)
 
     # Get the response from chatgpt
-    gpt_response = gpt_troubleshoot.get_gpt_response(image_text)
+    gpt_response = get_gpt_response(image_text)
 
     st.session_state.history.append({"message": image_text, "is_user": True})
     st.session_state.history.append({"message": gpt_response["choices"][0]["message"]["content"], "is_user": False})
@@ -36,6 +38,9 @@ def generate_image_response():
 
 
 def get_user_input():
+    """
+    Main function to take user inout text/image and provide response using fine-tuned GPT-3
+    """
     st.set_page_config(layout="wide")
 
     # Initialize the session state if not present
