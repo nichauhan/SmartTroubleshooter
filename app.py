@@ -18,6 +18,8 @@ def generate_text_response():
     st.session_state.history.append({"message": input_text, "is_user": True})
     st.session_state.history.append({"message": gpt_response, "is_user": False})
 
+    st.session_state["input_text"] = ""
+
     return
 
 
@@ -45,7 +47,7 @@ def get_user_input():
 
     # Initialize the session state if not present
     if "history" not in st.session_state:
-        st.session_state.history = []
+        st.session_state.history = [{"message": "Hello! How may I assist you with your Windows issue today?", "is_user": False}]
 
     # Set the title of the page
     st.title("Smart Troubleshooter")
@@ -58,7 +60,7 @@ def get_user_input():
     st.text_input("Please give more info on your issue", key="input_text", on_change=generate_text_response)
 
     # Print the conversation history so far in the current session
-    for i, chat in enumerate(st.session_state.history):
+    for i, chat in reversed(list(enumerate(st.session_state.history))):
         st_message(**chat, key=str(i))
 
     return
